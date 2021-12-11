@@ -1,0 +1,150 @@
+<!-- <div class="wrapper fadeInDown">
+    <div id="formContent">
+  
+      <div class="fadeIn first">
+        <img src="https://angular.io/assets/images/logos/angular/logo-nav@2x.png" id="icon" alt="User Icon">
+    </div>
+  
+      <form>
+        <label for="depostype">Select Deposit Type</label>
+        <select name="depostype" id="depostype">
+            <option>None</option>
+            <option value="fix">Fixed Deposit</option>
+            <option value="recur">Recurring Deposit</option>
+        </select>
+
+        <p>Select age category</p>
+        <input type="radio" id="age" name="age" value="normal">
+         <label for="normal">Normal Citizen</label><br>
+         <input type="radio" id="age" name="age" value="senior">
+         <label for="senior">Senior Citizen</label><br>
+
+
+        <input type="text" id="prinamo" name="prinamo" placeholder="Enter the Principal Account">
+        <input type="text" id="term" name="term" placeholder="Enter the Term for the deposit">
+
+
+        <input type="button" value="Submit">
+      </form> 
+    </div>
+  </div>
+    -->
+  
+
+      
+  <!--
+
+    Recurring Deposit
+      Maturity amount = Total deposits + Interest
+      Total deposits = monthly deposits * number of months you made payments
+
+        Interest = P * n * (n+1) * r / 2400
+        where:
+
+        P is the monthly deposit,
+        n is number of months,
+        r is the annual interest rate
+
+    Fixed Deposit
+        M = P + (P*r*t/100) [Simple Interest]
+
+        M = P + P{(1 + r/100)t - 1} [Compound Interest]
+  -->
+    
+
+  <h1 id="title">Deposit</h1>
+
+  <div class="register-form">
+    <form  [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="depostype" >Select Deposit Type</label>
+          <div>
+             <select id="depostype"  class="form-control" formControlName="depostype"
+             [ngClass]="{ 'is-invalid': submitted && f['depostype'].errors }">
+
+               <option *ngFor = "let g of depostype"
+                 [value] = "g"> {{g}}
+               </option>
+               
+             </select>
+             <div *ngIf="submitted && f['depostype'].errors" class="invalid-feedback">
+              <div *ngIf="f['depostype'].errors['required']">Deposit Type is required</div>
+              </div>
+          </div>
+      </div>
+
+      <div class="form-group">
+        <label for="age" >Select Age Category</label>
+          <div>
+             <select id="age"  class="form-control" formControlName="age"
+             [ngClass]="{ 'is-invalid': submitted && f['age'].errors }">
+
+               <option *ngFor = "let g of age"
+                 [value] = "g"> {{g}}
+               </option>
+               
+             </select>
+             <div *ngIf="submitted && f['age'].errors" class="invalid-feedback">
+              <div *ngIf="f['age'].errors['required']">Age Category is required</div>
+              </div>
+          </div>
+      </div>
+
+
+ 
+
+
+      <div class="form-group">
+        <label>Principal Amount</label>
+        <input
+          type="number"
+          formControlName="prinamo"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['prinamo'].errors }"
+        />
+        <div *ngIf="submitted && f['prinamo'].errors" class="invalid-feedback">
+
+          <div *ngIf="f['prinamo'].errors['required']">Amount is required</div>
+         
+
+          <div *ngIf="f['prinamo'].errors['min']">
+Principal Amount should be atleast 100         </div>
+          <div *ngIf="f['prinamo'].errors['max']">
+Principal Amount exceeded          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Term in Years</label>
+        <input
+          type="number"
+          formControlName="term"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['term'].errors }"
+        />
+        <div *ngIf="submitted && f['term'].errors" class="invalid-feedback">
+
+          <div *ngIf="f['term'].errors['required']">Term is required</div>
+         
+
+
+      </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button
+          type="button"
+          (click)="onReset()"
+          class="btn btn-warning float-right">
+          Reset
+        </button>
+      </div>
+      </form>
+      </div>
+<div *ngIf ="submitted">
+      <h1 *ngIf ="interest > 0">Total Interest for {{this.form.value['term']}} years : {{interest}}</h1>
+      <h1 *ngIf ="final > 0">Total Maturity Amount for {{this.form.value['term']}} years : {{final}}</h1>
+    </div>
+
+

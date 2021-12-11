@@ -1,0 +1,128 @@
+<!-- <div class="wrapper fadeInDown">
+    <div id="formContent">
+  
+      <div class="fadeIn first">
+        <img src="https://angular.io/assets/images/logos/angular/logo-nav@2x.png" id="icon" alt="User Icon">
+    </div>
+  
+      <form>
+        <label for="doctype">Select Document Type</label>
+        <select name="doctype" id="doctype">
+            <option>None</option>
+            <option value="pass">Passport</option>
+            <option value="vote">Voter's Identity Card</option>
+            <option value="drive">Driving License</option>
+            <option value="aadhaar">Aadhaar Card</option>
+            <option value="pan">PAN Card</option>
+        </select><br>
+
+        <input type="text" id="kycid" name="kycid" placeholder="Enter the Document No."><br>
+        <input type="text" id="kycname" name="kycname" placeholder="Enter the full name as per the document"><br>
+        <input type="checkbox" formControlName="terms"> Confirm that you've read the Terms and
+        Conditions<br>
+        <input type="button" value="Submit">
+      </form>
+  
+      
+  
+    </div>
+  </div> -->
+
+  <h1 id="title">KYC Verification</h1>
+
+  <div class="register-form">
+    <form  [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="doctype" >Select Document Type</label>
+          <div>
+             <select id="doctype"  class="form-control" formControlName="doctype"
+             [ngClass]="{ 'is-invalid': submitted && f['doctype'].errors }">
+
+               <option *ngFor = "let g of doctype"
+                 [value] = "g"> {{g}}
+               </option>
+               
+             </select>
+             <div *ngIf="submitted && f['doctype'].errors" class="invalid-feedback">
+              <div *ngIf="f['doctype'].errors['required']">Document Type is required</div>
+              </div>
+          </div>
+      </div>
+
+      
+
+
+ 
+
+
+      <div class="form-group">
+        <label>Document No.</label>
+        <input
+          type="text"
+          formControlName="kycid"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['kycid'].errors }"
+        />
+        <div *ngIf="submitted && f['kycid'].errors" class="invalid-feedback">
+
+          <div *ngIf="f['kycid'].errors['required']">Document No. is required</div>
+         
+
+          
+      </div>
+      </div>
+
+      <div class="form-group">
+        <label>Name as per Document</label>
+        <input
+          type="text"
+          formControlName="kycname"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['kycname'].errors }"
+        />
+        <div *ngIf="submitted && f['kycname'].errors" class="invalid-feedback">
+
+          <div *ngIf="f['kycname'].errors['required']">Name as per Document is required</div>
+         
+          <div *ngIf="f['kycname'].errors['minlength']">
+            Name must be at least 6 characters
+          </div>
+          <div *ngIf="f['kycname'].errors['maxlength']">
+            Name must not exceed 20 characters
+          </div>
+
+      </div>
+      <div class="form-group form-check">
+        <input
+          type="checkbox"
+          formControlName="acceptTerms"
+          class="form-check-input"
+          [ngClass]="{ 'is-invalid': submitted && f['acceptTerms'].errors }"
+        />
+        <label for="acceptTerms" class="form-check-label"
+          >I have read and agree to the Terms</label
+        >
+        <div *ngIf="submitted && f['acceptTerms'].errors" class="invalid-feedback">
+          Accept Terms is required
+        </div>
+      </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button
+          type="button"
+          (click)="onReset()"
+          class="btn btn-warning float-right">
+          Reset
+        </button>
+      </div>
+      </form>
+      </div>
+
+      <div *ngIf="verified">
+        <h1>Kyc Verification Done</h1>
+      </div>
+
+
+

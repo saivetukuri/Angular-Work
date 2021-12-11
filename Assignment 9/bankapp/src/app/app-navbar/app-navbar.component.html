@@ -1,0 +1,46 @@
+<nav
+  class="navbar navbar-inverse navbar-fixed-top"
+  *ngIf="this.authService.isLoggedIn"
+>
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <!-- <a class="navbar-brand" href="#"
+        >{{title}}={{this.isLoggedIn}}=={{this.authService.isLoggedIn}}</a
+      > -->
+      <ul class="navbar-brand">
+        <li *ngFor="let menu of menues" (click)="onSelect(menu)">
+          <a routerLink="{{menu.url}}" routerLinkActive="active">{{menu.name}}</a>
+        </li>
+        <!-- <li><a routerLink="/deposit" routerLinkActive="active">Deposit</a></li>
+        <li><a routerLink="/fundtransfer" routerLinkActive="active">Fund Transfer</a></li>
+        <li><a routerLink="/kyc" routerLinkActive="active">KYC Verification</a></li> -->
+        <li><a href="#">Logout</a></li>
+        
+      </ul>
+      
+    </div>
+    
+  </div>
+</nav> 
+<!-- 
+<nav
+  class="navbar navbar-inverse navbar-fixed-top"
+  *ngIf="this.authService.isLoggedIn"
+>
+<ul>
+  <li><a href="#home">Home</a></li>
+  <li><a href="#news">News</a></li>
+  <li><a href="#contact">Contact</a></li>
+  <li style="float:right"><a class="active" href="#about">About</a></li>
+</ul>
+</nav> -->
+
+
+<div class="container-fluid">
+  <div class="row">
+  
+<!-- <app-sidenav></app-sidenav>   -->
+    <router-outlet name="sbar"></router-outlet>
+    <router-outlet></router-outlet>
+  </div>
+</div>

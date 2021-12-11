@@ -1,0 +1,143 @@
+<!-- <div class="wrapper fadeInDown">
+    <div id="formContent">
+  
+      <div class="fadeIn first">
+        <img src="https://angular.io/assets/images/logos/angular/logo-nav@2x.png" id="icon" alt="User Icon">
+    </div>
+  
+      <form>
+        <label for="transtype">Select Transfer Type</label>
+        <select name="transtype" id="transtype">
+            <option>None</option>
+            <option value="neft">NEFT</option>
+            <option value="imps">IMPS</option>
+            <option value="rtgs">RTGS</option>
+        </select>
+<br><br>
+        <input type="text" id="bname" name="bname" placeholder="Enter the Beneficiary Name">
+        <input type="text" id="baccno" name="baccno" placeholder="Enter Beneficiary Account No.">
+        <input type="text" id="fund" name="fund"  placeholder="Enter the Amount to Transfer">
+
+        <input type="button" value="Submit">
+      </form>
+  
+      
+  
+    </div>
+  </div> -->
+
+<h1 id="title">Fund Transfer</h1>
+  <div class="register-form">
+    <form  [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="transtype" >Select Transfer Type</label>
+          <div>
+             <select id="transtype"  class="form-control" formControlName="transtype"
+             [ngClass]="{ 'is-invalid': submitted && f['transtype'].errors }">
+
+               <option *ngFor = "let g of transList"
+                 [value] = "g"> {{g}}
+               </option>
+               
+             </select>
+             <div *ngIf="submitted && f['transtype'].errors" class="invalid-feedback">
+              <div *ngIf="f['transtype'].errors['required']">Transfer Type is required</div>
+              </div>
+          </div>
+      </div>
+      <div class="form-group">
+        <label>Beneficiary Name</label>
+        <input
+          type="text"
+          formControlName="bname"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['bname'].errors }"
+        />
+        <div *ngIf="submitted && f['bname'].errors" class="invalid-feedback">
+          <div *ngIf="f['bname'].errors['required']">Beneficiary Name is required</div>
+          <div *ngIf="f['bname'].errors['minlength']">
+            Beneficiary Name must be at least 6 characters
+          </div>
+          <div *ngIf="f['bname'].errors['maxlength']">
+            Beneficiary Name must not exceed 20 characters
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Beneficiary Account No.</label>
+        <input
+          type="text"
+          formControlName="baccno"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['baccno'].errors }"
+        />
+        <div *ngIf="submitted && f['baccno'].errors" class="invalid-feedback">
+
+          <div *ngIf="f['baccno'].errors['required']">Beneficiary Account No. is required</div>
+          <div *ngIf="f['baccno'].errors['pattern']">
+            Invalid Beneficiary Account No. 
+          </div>
+
+          <div *ngIf="f['baccno'].errors['minlength']">
+            Beneficiary Account No. must be at least 9 characters
+          </div>
+          <div *ngIf="f['baccno'].errors['maxlength']">
+            Beneficiary Account No. must not exceed 18 characters
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Amount</label>
+        <input
+          type="number"
+          formControlName="fund"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': submitted && f['fund'].errors }"
+        />
+        <div *ngIf="submitted && f['fund'].errors" class="invalid-feedback">
+
+          <div *ngIf="f['fund'].errors['required']">Amount is required</div>
+         
+
+          <div *ngIf="f['fund'].errors['min']">
+Amount should be atleast 100         </div>
+          <div *ngIf="f['fund'].errors['max']">
+Amount exceeded          </div>
+        </div>
+      </div>
+
+      <div class="form-group form-check">
+        <input
+          type="checkbox"
+          formControlName="acceptTerms"
+          class="form-check-input"
+          [ngClass]="{ 'is-invalid': submitted && f['acceptTerms'].errors }"
+        />
+        <label for="acceptTerms" class="form-check-label"
+          >I have read and agree to the Terms</label
+        >
+        <div *ngIf="submitted && f['acceptTerms'].errors" class="invalid-feedback">
+          Accept Terms is required
+        </div>
+      </div>
+  
+    
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Register</button>
+        <button
+          type="button"
+          (click)="onReset()"
+          class="btn btn-warning float-right">
+          Reset
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <h1 *ngIf="transfer">{{this.form.value['fund']}} transferred to {{this.form.value['bname']}} Successfully</h1>
+
+  <h1 *ngIf="transfer">Account Balance: {{20000-this.form.value['fund']}}</h1>
+
+
